@@ -4,25 +4,25 @@ info:
   title: "Beverage API"
 host: "localhost:8080"
 tags:
-- name: "beverageAPI"
-  description: "Control storage of beverage"
+  - name: "beverageAPI"
+    description: "Control storage of beverage"
 paths:
   /beverage:
     post:
       tags:
-      - "beverageAPI"
+        - "beverageAPI"
       summary: "Add a new beverege in the storage"
       consumes:
-      - "application/json"
+        - "application/json"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "body"
-        description: "Beverage object"
-        required: true
-        schema:
-          $ref: "#/definitions/Beverage"
+        - in: "body"
+          name: "body"
+          description: "Beverage object"
+          required: true
+          schema:
+            $ref: "#/definitions/BeverageCreation"
       responses:
         200:
           description: "Sucessfully added"
@@ -34,13 +34,13 @@ paths:
           description: "Invalid Parameters or storage limitations"
         500:
           description: "Internal server error"
-          
+
     get:
       tags:
-      - "beverageAPI"
+        - "beverageAPI"
       summary: "Retrieve all beverages in the storage"
       produces:
-      - "application/json"
+        - "application/json"
       responses:
         200:
           description: "List of beverages sorted by date"
@@ -53,17 +53,17 @@ paths:
   /beverage/section/{section}:
     get:
       tags:
-      - "beverageAPI"
+        - "beverageAPI"
       summary: "Retrieve all beverages in a section"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "section"
-        in: "path"
-        description: "Section that will be filtered"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "section"
+          in: "path"
+          description: "Section that will be filtered"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "List of beverages in that section"
@@ -75,21 +75,21 @@ paths:
           description: "Invalid section"
         500:
           description: "Internal server error"
-          
+
   /beverage/availableStorage/section/{section}:
     get:
       tags:
-      - "beverageAPI"
+        - "beverageAPI"
       summary: "Retrieve the available storage (in litters) in a section"
       produces:
-      - "application/json"
+        - "application/json"
       parameters:
-      - name: "section"
-        in: "path"
-        description: "Section that will be filtered"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "section"
+          in: "path"
+          description: "Section that will be filtered"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "Ammount of available storage"
@@ -104,11 +104,11 @@ definitions:
   Beverage:
     type: "object"
     required:
-    - "name"
-    - "isAlcoholic"
-    - "volumeInLiters"
-    - "section"
-    - "responsibleForStorage"
+      - "name"
+      - "isAlcoholic"
+      - "volumeInLiters"
+      - "section"
+      - "responsibleForStorage"
     properties:
       id:
         type: "number"
@@ -118,6 +118,29 @@ definitions:
       timestamp:
         type: "number"
         example: "1581876342272"
+      alcoholic:
+        type: "boolean"
+      volumeInLiters:
+        type: "number"
+        example: 200
+      section:
+        type: "number"
+        example: 3
+      responsibleForStorage:
+        type: "string"
+        example: "João Silva"
+  BeverageCreation:
+    type: "object"
+    required:
+      - "name"
+      - "isAlcoholic"
+      - "volumeInLiters"
+      - "section"
+      - "responsibleForStorage"
+    properties:
+      name:
+        type: "string"
+        example: "beer"
       alcoholic:
         type: "boolean"
       volumeInLiters:
