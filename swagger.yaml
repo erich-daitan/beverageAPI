@@ -1,0 +1,131 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Beverage API"
+host: "localhost:8080"
+tags:
+- name: "beverageAPI"
+  description: "Control storage of beverage"
+paths:
+  /beverage:
+    post:
+      tags:
+      - "beverageAPI"
+      summary: "Add a new beverege in the storage"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Beverage object"
+        required: true
+        schema:
+          $ref: "#/definitions/Beverage"
+      responses:
+        200:
+          description: "Sucessfully added"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Beverage"
+        400:
+          description: "Invalid Parameters or storage limitations"
+        500:
+          description: "Internal server error"
+          
+    get:
+      tags:
+      - "beverageAPI"
+      summary: "Retrieve all beverages in the storage"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "List of beverages sorted by date"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Beverage"
+        500:
+          description: "Internal server error"
+  /beverage/section/{section}:
+    get:
+      tags:
+      - "beverageAPI"
+      summary: "Retrieve all beverages in a section"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "section"
+        in: "path"
+        description: "Section that will be filtered"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "List of beverages in that section"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Beverage"
+        400:
+          description: "Invalid section"
+        500:
+          description: "Internal server error"
+          
+  /beverage/availableStorage/section/{section}:
+    get:
+      tags:
+      - "beverageAPI"
+      summary: "Retrieve the available storage (in litters) in a section"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "section"
+        in: "path"
+        description: "Section that will be filtered"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Ammount of available storage"
+          schema:
+            type: "number"
+            example: 250
+        400:
+          description: "Invalid section"
+        500:
+          description: "Internal server error"
+definitions:
+  Beverage:
+    type: "object"
+    required:
+    - "name"
+    - "isAlcoholic"
+    - "volumeInLiters"
+    - "section"
+    - "responsibleForStorage"
+    properties:
+      id:
+        type: "number"
+      name:
+        type: "string"
+        example: "beer"
+      timestamp:
+        type: "number"
+        example: "1581876342272"
+      alcoholic:
+        type: "boolean"
+      volumeInLiters:
+        type: "number"
+        example: 200
+      section:
+        type: "number"
+        example: 3
+      responsibleForStorage:
+        type: "string"
+        example: "João Silva"
